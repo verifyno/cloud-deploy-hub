@@ -4,6 +4,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { fetchAppLogs, loginApp, updateAppVars } from "@/lib/heroku.functions";
 import { Nav, Footer } from "./index";
+import { ConnectingOverlay } from "@/components/connecting-overlay";
 
 export const Route = createFileRoute("/manage")({
   validateSearch: z.object({ id: z.string().optional() }),
@@ -73,6 +74,7 @@ function ManagePage() {
   if (!app) {
     return (
       <div className="min-h-screen">
+        <ConnectingOverlay show={busy} label="Connecting" sublabel="signing you in" />
         <Nav />
         <main className="mx-auto max-w-md px-6 py-20">
           <h1 className="text-3xl font-semibold tracking-tight">Manage your app</h1>
@@ -117,6 +119,7 @@ function ManagePage() {
 
   return (
     <div className="min-h-screen">
+      <ConnectingOverlay show={busy} label="Working" sublabel="syncing with Heroku" />
       <Nav />
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

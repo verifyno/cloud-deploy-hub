@@ -9,6 +9,8 @@ import {
   getBuildStatus,
 } from "@/lib/heroku.functions";
 import { Nav, Footer } from "./index";
+import { ConnectingOverlay } from "@/components/connecting-overlay";
+import { DeployingAnimation } from "@/components/deploying-animation";
 
 export const Route = createFileRoute("/deploy")({
   validateSearch: z.object({ repo: z.string().optional() }),
@@ -111,25 +113,10 @@ function DeployPage() {
       <div className="min-h-screen">
         <Nav />
         <main className="mx-auto max-w-4xl px-6 py-12">
-          <h1 className="text-2xl font-semibold tracking-tight">Deploying {result.appName}</h1>
-          <div className="mt-2 text-sm text-muted-foreground">
-            Status:{" "}
-            <span
-              className={
-                "mono px-2 py-0.5 rounded-md " +
-                (status === "succeeded"
-                  ? "bg-foreground text-background"
-                  : status === "failed"
-                    ? "bg-destructive text-destructive-foreground"
-                    : "bg-muted")
-              }
-            >
-              {status}
-            </span>
-          </div>
+          <DeployingAnimation status={status} appName={result.appName} />
 
           {(status === "succeeded" || status === "failed") && (
-            <div className="mt-6 rounded-2xl border border-border bg-card p-6">
+            <div className="mt-6 rounded-2xl border border-border bg-card p-6 animate-fade-in">
               {status === "succeeded" ? (
                 <>
                   <div className="text-lg font-medium">Deployment complete 🎉</div>
@@ -176,6 +163,7 @@ function DeployPage() {
 
   return (
     <div className="min-h-screen">
+      <ConnectingOverlay show={loading} label="Connecting" sublabel="reading app.json" />
       <Nav />
       <main className="mx-auto max-w-3xl px-6 py-12">
         <h1 className="text-3xl font-semibold tracking-tight">Deploy a repository</h1>
