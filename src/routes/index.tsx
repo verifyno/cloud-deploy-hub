@@ -21,15 +21,30 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* subtle grid backdrop */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, color-mix(in oklab, var(--foreground) 8%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 8%, transparent) 1px, transparent 1px)",
+          backgroundSize: "44px 44px",
+          maskImage:
+            "radial-gradient(ellipse at 50% 0%, black 40%, transparent 75%)",
+        }}
+      />
       <Nav />
       <main className="mx-auto max-w-3xl px-6 pt-24 pb-16">
-        <div className="text-center">
+        <div className="text-center animate-fade-in">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 backdrop-blur px-3 py-1 text-xs text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-foreground opacity-60 animate-ping" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-foreground" />
+            </span>
             Powered by Heroku · Managed by AS Cloud
           </div>
-          <h1 className="mt-6 text-5xl md:text-6xl font-semibold tracking-tight">
+          <h1 className="mt-6 text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05]">
             Deploy anything.
             <br />
             <span className="text-muted-foreground">In one click.</span>
@@ -51,7 +66,7 @@ function Home() {
           }}
           className="mt-10 mx-auto max-w-2xl"
         >
-          <div className="rounded-2xl border border-border bg-card shadow-sm p-2 flex flex-col sm:flex-row gap-2">
+          <div className="group rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow p-2 flex flex-col sm:flex-row gap-2 focus-within:ring-2 focus-within:ring-ring focus-within:border-ring">
             <input
               value={repo}
               onChange={(e) => setRepo(e.target.value)}
@@ -65,6 +80,9 @@ function Home() {
               Deploy →
             </button>
           </div>
+          <div className="mt-3 text-xs text-muted-foreground text-center">
+            Works with any Heroku-compatible repo containing an <span className="mono">app.json</span>.
+          </div>
         </form>
 
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -73,9 +91,15 @@ function Home() {
             { t: "Live build logs", d: "Watch deployment stream in real time." },
             { t: "Manage later", d: "Login with your ID + password to update vars." },
           ].map((f) => (
-            <div key={f.t} className="rounded-2xl border border-border bg-card p-5">
+            <div
+              key={f.t}
+              className="group rounded-2xl border border-border bg-card p-5 hover:border-foreground/30 transition-colors"
+            >
               <div className="text-sm text-muted-foreground">{f.d}</div>
-              <div className="mt-2 font-medium">{f.t}</div>
+              <div className="mt-2 font-medium flex items-center gap-2">
+                <span className="h-1 w-1 rounded-full bg-foreground" />
+                {f.t}
+              </div>
             </div>
           ))}
         </div>
