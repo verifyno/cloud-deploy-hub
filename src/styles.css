@@ -139,8 +139,20 @@
     border-color: var(--color-border);
   }
 
+  html, body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    background-image:
+      radial-gradient(circle at 0% 0%, oklch(0.95 0 0) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, oklch(0.93 0 0) 0%, transparent 50%);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
   }
 }
