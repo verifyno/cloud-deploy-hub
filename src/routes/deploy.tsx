@@ -28,6 +28,8 @@ function DeployPage() {
   const navigate = useNavigate();
   const inspect = useServerFn(inspectRepo);
   const deploy = useServerFn(deployRepo);
+  const fetchLog = useServerFn(fetchBuildLog);
+  const fetchStatus = useServerFn(getBuildStatus);
 
   const [repoUrl, setRepoUrl] = useState(repo || "");
   const [loading, setLoading] = useState(false);
