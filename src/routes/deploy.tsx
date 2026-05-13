@@ -91,8 +91,6 @@ function DeployPage() {
   const stopRef = useRef(false);
   async function pollLogs(appName: string, buildId: string, streamUrl: string) {
     stopRef.current = false;
-    const fetchLog = useServerFnLazy(fetchBuildLog);
-    const fetchStatus = useServerFnLazy(getBuildStatus);
     for (let i = 0; i < 240; i++) {
       if (stopRef.current) break;
       try {
