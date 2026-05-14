@@ -133,7 +133,10 @@ function DeployPage() {
                 {meta.addons?.length ? (
                   <ul className="space-y-1 text-sm mono">
                     {meta.addons.map((a: any, i: number) => (
-                      <li key={i}>{a.plan}{a.as ? ` (${a.as})` : ""}</li>
+                      <li key={i} className="flex justify-between gap-2">
+                        <span className="truncate">{a.service}</span>
+                        <span className="text-muted-foreground truncate">{a.plan}</span>
+                      </li>
                     ))}
                   </ul>
                 ) : (
@@ -252,16 +255,37 @@ function DeployPage() {
                 </div>
               </div>
               <div className="rounded-2xl border border-border bg-card p-5">
-                <div className="text-xs text-muted-foreground mb-2">Add-ons</div>
+                <div className="text-xs text-muted-foreground mb-2">
+                  Required add-ons
+                </div>
                 {meta.addons?.length ? (
-                  <ul className="space-y-1 text-sm mono">
+                  <ul className="space-y-2 text-sm">
                     {meta.addons.map((a: any, i: number) => (
-                      <li key={i}>{a.plan}{a.as ? ` (${a.as})` : ""}</li>
+                      <li
+                        key={i}
+                        className="flex items-start justify-between gap-3 rounded-lg border border-border/60 bg-background px-3 py-2"
+                      >
+                        <div className="min-w-0">
+                          <div className="mono text-sm truncate">{a.service}</div>
+                          <div className="mono text-[11px] text-muted-foreground truncate">
+                            {a.plan}
+                            {a.as ? ` · as ${a.as}` : ""}
+                          </div>
+                        </div>
+                        <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
+                          Required
+                        </span>
+                      </li>
                     ))}
                   </ul>
                 ) : (
-                  <div className="text-sm text-muted-foreground">No add-ons.</div>
+                  <div className="text-sm text-muted-foreground">
+                    No add-ons declared in app.json.
+                  </div>
                 )}
+                <div className="mt-3 text-[11px] text-muted-foreground">
+                  Add-ons are provisioned automatically during deploy.
+                </div>
               </div>
             </div>
 

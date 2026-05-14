@@ -33,10 +33,25 @@ export const inspectRepo = createServerFn({ method: "POST" })
       size: v?.size || "eco",
     }));
     if (dynos.length === 0) dynos.push({ type: "web", quantity: 1, size: "eco" });
-    const addonsRaw = appJson?.addons || [];
-    const addons = addonsRaw.map((a: any) =>
-      typeof a === "string" ? { plan: a } : { plan: a?.plan, as: a?.as },
-    );
+    const addonsRaw = Array.isArray(appJson?.addons) ? appJson.addons : [];
+    const addons = addonsRaw
+      .map((a: any) => {
+        if (!a) return null;
+        if (typeof a === "string") {
+          const [service, plan] = a.split(":");
+          return { service, plan: a, as: null, required: true };
+        }
+        const planStr: string = typeof a.plan === "string" ? a.plan : "";
+        const service = planStr.split(":")[0] || planStr;
+        return {
+          service,
+          plan: planStr || service,
+          as: a.as || null,
+          required: true,
+          options: a.options || null,
+        };
+      })
+      .filter(Boolean);
     return {
       repo: info,
       appName: appJson?.name || `${info.owner}/${info.repo}`,
