@@ -133,7 +133,10 @@ function DeployPage() {
                 {meta.addons?.length ? (
                   <ul className="space-y-1 text-sm mono">
                     {meta.addons.map((a: any, i: number) => (
-                      <li key={i}>{a.plan}{a.as ? ` (${a.as})` : ""}</li>
+                      <li key={i} className="flex justify-between gap-2">
+                        <span className="truncate">{a.service}</span>
+                        <span className="text-muted-foreground truncate">{a.plan}</span>
+                      </li>
                     ))}
                   </ul>
                 ) : (
