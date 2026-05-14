@@ -24,9 +24,13 @@ export const Route = createFileRoute("/manage")({
 
 function ManagePage() {
   const { id: prefillId } = Route.useSearch();
+  const navigate = useNavigate();
   const login = useServerFn(loginApp);
   const update = useServerFn(updateAppVars);
   const fetchLogs = useServerFn(fetchAppLogs);
+  const getDetails = useServerFn(getAppDetails);
+  const scale = useServerFn(scaleDyno);
+  const remove = useServerFn(deleteApp);
 
   const [id, setId] = useState(prefillId || "");
   const [password, setPassword] = useState("");
@@ -38,6 +42,10 @@ function ManagePage() {
   const [busy, setBusy] = useState(false);
   const [logs, setLogs] = useState("");
   const [savedAt, setSavedAt] = useState<string>("");
+  const [dynos, setDynos] = useState<{ type: string; size: DynoSize; quantity: number }[]>([]);
+  const [addons, setAddons] = useState<{ name: string; plan: string; state: string }[]>([]);
+  const [confirmDelete, setConfirmDelete] = useState("");
+  const [scaleBusy, setScaleBusy] = useState<string>("");
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
