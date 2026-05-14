@@ -47,6 +47,22 @@ function ManagePage() {
   const [confirmDelete, setConfirmDelete] = useState("");
   const [scaleBusy, setScaleBusy] = useState<string>("");
 
+  async function loadDetails(appId: string, pw: string) {
+    try {
+      const d = await getDetails({ data: { id: appId, password: pw } });
+      setDynos(
+        (d.dynos || []).map((x: any) => ({
+          type: x.type,
+          size: (DYNO_SIZES.includes(x.size) ? x.size : "eco") as DynoSize,
+          quantity: x.quantity ?? 1,
+        })),
+      );
+      setAddons(d.addons || []);
+    } catch {
+      // ignore — details are optional
+    }
+  }
+
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setErr("");
@@ -55,9 +71,41 @@ function ManagePage() {
       const r = await login({ data: { id: id.toLowerCase(), password } });
       setApp(r);
       setVars(Object.entries(r.configVars).map(([k, v]) => ({ key: k, value: String(v) })));
+      await loadDetails(r.id, password);
     } catch (e: any) {
       setErr(e.message || "Login failed");
     } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleScale(idx: number) {
+    const d = dynos[idx];
+    setScaleBusy(d.type);
+    setErr("");
+    try {
+      const r = await scale({
+        data: { id: app.id, password, type: d.type, size: d.size, quantity: d.quantity },
+      });
+      const next = [...dynos];
+      next[idx] = { type: r.type, size: r.size as DynoSize, quantity: r.quantity };
+      setDynos(next);
+    } catch (e: any) {
+      setErr(e.message || "Scale failed");
+    } finally {
+      setScaleBusy("");
+    }
+  }
+
+  async function handleDelete() {
+    if (confirmDelete !== app.id) return;
+    setBusy(true);
+    setErr("");
+    try {
+      await remove({ data: { id: app.id, password } });
+      navigate({ to: "/" });
+    } catch (e: any) {
+      setErr(e.message || "Delete failed");
       setBusy(false);
     }
   }
