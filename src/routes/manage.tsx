@@ -1,10 +1,20 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
-import { fetchAppLogs, loginApp, updateAppVars } from "@/lib/heroku.functions";
+import {
+  fetchAppLogs,
+  loginApp,
+  updateAppVars,
+  getAppDetails,
+  scaleDyno,
+  deleteApp,
+} from "@/lib/heroku.functions";
 import { Nav, Footer } from "./index";
 import { ConnectingOverlay } from "@/components/connecting-overlay";
+
+const DYNO_SIZES = ["eco", "basic", "standard-1X", "standard-2X"] as const;
+type DynoSize = (typeof DYNO_SIZES)[number];
 
 export const Route = createFileRoute("/manage")({
   validateSearch: z.object({ id: z.string().optional() }),
