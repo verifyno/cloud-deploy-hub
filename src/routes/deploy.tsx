@@ -203,6 +203,41 @@ function DeployPage() {
               )}
             </div>
 
+            <div className="mt-6 grid sm:grid-cols-2 gap-4">
+              <div className="rounded-2xl border border-border bg-card p-5">
+                <div className="text-xs text-muted-foreground mb-2">Dynos</div>
+                {meta.dynos?.length ? (
+                  <ul className="space-y-1 text-sm">
+                    {meta.dynos.map((d: any) => (
+                      <li key={d.type} className="flex justify-between mono">
+                        <span>{d.type}</span>
+                        <span className="text-muted-foreground">
+                          {d.size} × {d.quantity}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="text-sm text-muted-foreground">No dynos defined.</div>
+                )}
+                <div className="mt-3 text-[11px] text-muted-foreground">
+                  Scaling is available after deployment.
+                </div>
+              </div>
+              <div className="rounded-2xl border border-border bg-card p-5">
+                <div className="text-xs text-muted-foreground mb-2">Add-ons</div>
+                {meta.addons?.length ? (
+                  <ul className="space-y-1 text-sm mono">
+                    {meta.addons.map((a: any, i: number) => (
+                      <li key={i}>{a.plan}{a.as ? ` (${a.as})` : ""}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="text-sm text-muted-foreground">No add-ons.</div>
+                )}
+              </div>
+            </div>
+
             <h2 className="mt-8 text-lg font-semibold">Configuration variables</h2>
             {vars.length === 0 ? (
               <div className="mt-3 text-sm text-muted-foreground">
