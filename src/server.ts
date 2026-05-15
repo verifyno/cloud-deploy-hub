@@ -50,7 +50,7 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 
 export default {
   async fetch(request: Request, env: Env, ctx: unknown) {
-    setDB(env.DB);
+    if (env?.DB) setDB(env.DB);
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
