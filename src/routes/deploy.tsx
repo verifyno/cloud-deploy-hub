@@ -116,33 +116,16 @@ function DeployPage() {
           <DeployingAnimation status={status} appName={result.appName} />
 
           {meta && (
-            <div className="mt-6 grid sm:grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-border bg-card p-5">
-                <div className="text-xs text-muted-foreground mb-2">Dynos (read-only during deploy)</div>
-                <ul className="space-y-1 text-sm mono">
-                  {meta.dynos?.map((d: any) => (
-                    <li key={d.type} className="flex justify-between">
-                      <span>{d.type}</span>
-                      <span className="text-muted-foreground">{d.size} × {d.quantity}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-2xl border border-border bg-card p-5">
-                <div className="text-xs text-muted-foreground mb-2">Add-ons</div>
-                {meta.addons?.length ? (
-                  <ul className="space-y-1 text-sm mono">
-                    {meta.addons.map((a: any, i: number) => (
-                      <li key={i} className="flex justify-between gap-2">
-                        <span className="truncate">{a.service}</span>
-                        <span className="text-muted-foreground truncate">{a.plan}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="text-sm text-muted-foreground">No add-ons.</div>
-                )}
-              </div>
+            <div className="mt-6 rounded-2xl border border-border bg-card p-5 animate-fade-in">
+              <div className="text-xs text-muted-foreground mb-2">Process types (read-only during deploy)</div>
+              <ul className="space-y-1 text-sm mono">
+                {meta.dynos?.map((d: any) => (
+                  <li key={d.type} className="flex justify-between">
+                    <span>{d.type}</span>
+                    <span className="text-muted-foreground">{d.size} × {d.quantity}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
           {(status === "succeeded" || status === "failed") && (
@@ -233,59 +216,24 @@ function DeployPage() {
               )}
             </div>
 
-            <div className="mt-6 grid sm:grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-border bg-card p-5">
-                <div className="text-xs text-muted-foreground mb-2">Dynos</div>
-                {meta.dynos?.length ? (
-                  <ul className="space-y-1 text-sm">
-                    {meta.dynos.map((d: any) => (
-                      <li key={d.type} className="flex justify-between mono">
-                        <span>{d.type}</span>
-                        <span className="text-muted-foreground">
-                          {d.size} × {d.quantity}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="text-sm text-muted-foreground">No dynos defined.</div>
-                )}
-                <div className="mt-3 text-[11px] text-muted-foreground">
-                  Scaling is available after deployment.
-                </div>
-              </div>
-              <div className="rounded-2xl border border-border bg-card p-5">
-                <div className="text-xs text-muted-foreground mb-2">
-                  Required add-ons
-                </div>
-                {meta.addons?.length ? (
-                  <ul className="space-y-2 text-sm">
-                    {meta.addons.map((a: any, i: number) => (
-                      <li
-                        key={i}
-                        className="flex items-start justify-between gap-3 rounded-lg border border-border/60 bg-background px-3 py-2"
-                      >
-                        <div className="min-w-0">
-                          <div className="mono text-sm truncate">{a.service}</div>
-                          <div className="mono text-[11px] text-muted-foreground truncate">
-                            {a.plan}
-                            {a.as ? ` · as ${a.as}` : ""}
-                          </div>
-                        </div>
-                        <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted-foreground">
-                          Required
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <div className="text-sm text-muted-foreground">
-                    No add-ons declared in app.json.
-                  </div>
-                )}
-                <div className="mt-3 text-[11px] text-muted-foreground">
-                  Add-ons are provisioned automatically during deploy.
-                </div>
+            <div className="mt-6 rounded-2xl border border-border bg-card p-5">
+              <div className="text-xs text-muted-foreground mb-2">Process types</div>
+              {meta.dynos?.length ? (
+                <ul className="space-y-1 text-sm">
+                  {meta.dynos.map((d: any) => (
+                    <li key={d.type} className="flex justify-between mono">
+                      <span>{d.type}</span>
+                      <span className="text-muted-foreground">
+                        {d.size} × {d.quantity}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-sm text-muted-foreground">No process types defined.</div>
+              )}
+              <div className="mt-3 text-[11px] text-muted-foreground">
+                Scaling is available after deployment.
               </div>
             </div>
 

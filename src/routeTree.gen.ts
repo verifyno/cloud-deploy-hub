@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ManageRouteImport } from './routes/manage'
 import { Route as DeployRouteImport } from './routes/deploy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiD1HealthRouteImport } from './routes/api/d1-health'
 
 const ManageRoute = ManageRouteImport.update({
   id: '/manage',
@@ -28,35 +29,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiD1HealthRoute = ApiD1HealthRouteImport.update({
+  id: '/api/d1-health',
+  path: '/api/d1-health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/deploy': typeof DeployRoute
   '/manage': typeof ManageRoute
+  '/api/d1-health': typeof ApiD1HealthRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/deploy': typeof DeployRoute
   '/manage': typeof ManageRoute
+  '/api/d1-health': typeof ApiD1HealthRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/deploy': typeof DeployRoute
   '/manage': typeof ManageRoute
+  '/api/d1-health': typeof ApiD1HealthRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/deploy' | '/manage'
+  fullPaths: '/' | '/deploy' | '/manage' | '/api/d1-health'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/deploy' | '/manage'
-  id: '__root__' | '/' | '/deploy' | '/manage'
+  to: '/' | '/deploy' | '/manage' | '/api/d1-health'
+  id: '__root__' | '/' | '/deploy' | '/manage' | '/api/d1-health'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DeployRoute: typeof DeployRoute
   ManageRoute: typeof ManageRoute
+  ApiD1HealthRoute: typeof ApiD1HealthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/d1-health': {
+      id: '/api/d1-health'
+      path: '/api/d1-health'
+      fullPath: '/api/d1-health'
+      preLoaderRoute: typeof ApiD1HealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DeployRoute: DeployRoute,
   ManageRoute: ManageRoute,
+  ApiD1HealthRoute: ApiD1HealthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
