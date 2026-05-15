@@ -184,8 +184,8 @@ function ManagePage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <ConnectingOverlay show={busy} label="Working" sublabel="syncing with Heroku" />
+    <div className="min-h-screen animate-fade-in" style={{ animationDuration: "500ms" }}>
+      <ConnectingOverlay show={busy} label="Working" sublabel="syncing your app" />
       <Nav />
       <main className="mx-auto max-w-4xl px-6 py-12">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -303,20 +303,20 @@ function ManagePage() {
         </section>
 
         <section className="mt-8 rounded-2xl border border-border bg-card p-5">
-          <h2 className="text-lg font-semibold">Dyno scaling</h2>
+          <h2 className="text-lg font-semibold">Process scaling</h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            Choose a tier and quantity per process type. Heroku will restart that process.
+            Choose a tier and quantity per process type. The process will restart on apply.
           </p>
           {dynos.length === 0 ? (
             <div className="mt-4 text-sm text-muted-foreground">
-              No dyno formation found yet. Try refreshing after the first deploy completes.
+              No process formation found yet. Try refreshing after the first deploy completes.
             </div>
           ) : (
             <div className="mt-4 space-y-3">
               {dynos.map((d, idx) => (
                 <div
                   key={d.type}
-                  className="flex flex-col sm:flex-row sm:items-center gap-2 rounded-xl border border-border p-3"
+                  className="flex flex-col sm:flex-row sm:items-center gap-2 rounded-xl border border-border p-3 transition-all duration-300 hover:border-foreground/30"
                 >
                   <div className="mono text-sm w-20">{d.type}</div>
                   <select
@@ -347,7 +347,7 @@ function ManagePage() {
                   <button
                     onClick={() => handleScale(idx)}
                     disabled={scaleBusy === d.type}
-                    className="sm:ml-auto rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-sm font-medium disabled:opacity-50"
+                    className="sm:ml-auto rounded-lg bg-primary text-primary-foreground px-3 py-1.5 text-sm font-medium disabled:opacity-50 transition-all duration-300 active:scale-95"
                   >
                     {scaleBusy === d.type ? "Scaling…" : "Apply"}
                   </button>
@@ -357,26 +357,10 @@ function ManagePage() {
           )}
         </section>
 
-        <section className="mt-8 rounded-2xl border border-border bg-card p-5">
-          <h2 className="text-lg font-semibold">Add-ons</h2>
-          {addons.length === 0 ? (
-            <div className="mt-3 text-sm text-muted-foreground">No add-ons attached.</div>
-          ) : (
-            <ul className="mt-3 space-y-2 text-sm mono">
-              {addons.map((a) => (
-                <li key={a.name} className="flex justify-between border-b border-border pb-2 last:border-0">
-                  <span>{a.plan}</span>
-                  <span className="text-muted-foreground">{a.state}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-
         <section className="mt-8 rounded-2xl border border-destructive/40 bg-destructive/5 p-5">
           <h2 className="text-lg font-semibold text-destructive">Danger zone</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Permanently delete <span className="mono">{app.appName}</span> from Heroku. This cannot be undone.
+            Permanently delete <span className="mono">{app.appName}</span>. This cannot be undone.
             Type the app name to confirm.
           </p>
           <div className="mt-4 flex flex-col sm:flex-row gap-2">
