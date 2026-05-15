@@ -6,11 +6,11 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "AS CLOUD SYSTEM — Deploy any GitHub repo to Heroku" },
+      { title: "AS Cloud System 🌙 — Deploy any GitHub repo" },
       {
         name: "description",
         content:
-          "Paste a GitHub repo, set variables, deploy. Get an ID and password to manage your app — Heroku-style, iOS-clean.",
+          "Paste a GitHub repo, set variables, deploy. Get an ID and password to manage your app — iOS-clean, AS Cloud smooth.",
       },
     ],
   }),
@@ -22,7 +22,6 @@ function Home() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* subtle grid backdrop */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35]"
@@ -36,20 +35,20 @@ function Home() {
       />
       <Nav />
       <main className="mx-auto max-w-3xl px-6 pt-24 pb-16">
-        <div className="text-center animate-fade-in">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 backdrop-blur px-3 py-1 text-xs text-muted-foreground">
+        <div className="text-center animate-fade-in" style={{ animationDuration: "600ms" }}>
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 backdrop-blur px-3 py-1 text-xs text-muted-foreground transition-all duration-500 hover:border-foreground/40">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-foreground opacity-60 animate-ping" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-foreground" />
             </span>
-            Powered by Heroku · Managed by AS Cloud
+            AS Cloud System 🌙
           </div>
-          <h1 className="mt-6 text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05]">
+          <h1 className="mt-6 text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05] animate-fade-in" style={{ animationDuration: "800ms", animationDelay: "100ms", animationFillMode: "backwards" }}>
             Deploy anything.
             <br />
             <span className="text-muted-foreground">In one click.</span>
           </h1>
-          <p className="mt-5 text-lg text-muted-foreground max-w-xl mx-auto">
+          <p className="mt-5 text-lg text-muted-foreground max-w-xl mx-auto animate-fade-in" style={{ animationDuration: "800ms", animationDelay: "250ms", animationFillMode: "backwards" }}>
             Paste a GitHub repository link. We'll read its <span className="mono">app.json</span>,
             collect variables, and ship it. You get an ID and password to manage everything.
           </p>
@@ -64,9 +63,10 @@ function Home() {
               search: { repo: repo.trim() } as any,
             });
           }}
-          className="mt-10 mx-auto max-w-2xl"
+          className="mt-10 mx-auto max-w-2xl animate-fade-in"
+          style={{ animationDuration: "800ms", animationDelay: "400ms", animationFillMode: "backwards" }}
         >
-          <div className="group rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow p-2 flex flex-col sm:flex-row gap-2 focus-within:ring-2 focus-within:ring-ring focus-within:border-ring">
+          <div className="group rounded-2xl border border-border bg-card shadow-sm hover:shadow-lg transition-all duration-500 p-2 flex flex-col sm:flex-row gap-2 focus-within:ring-2 focus-within:ring-ring focus-within:border-ring">
             <input
               value={repo}
               onChange={(e) => setRepo(e.target.value)}
@@ -75,13 +75,13 @@ function Home() {
             />
             <button
               type="submit"
-              className="rounded-xl bg-primary text-primary-foreground px-5 py-3 font-medium hover:opacity-90 active:scale-[0.98] transition"
+              className="rounded-xl bg-primary text-primary-foreground px-5 py-3 font-medium hover:opacity-90 active:scale-[0.97] transition-all duration-300"
             >
               Deploy →
             </button>
           </div>
           <div className="mt-3 text-xs text-muted-foreground text-center">
-            Works with any Heroku-compatible repo containing an <span className="mono">app.json</span>.
+            Works with any repo containing an <span className="mono">app.json</span>.
           </div>
         </form>
 
@@ -90,10 +90,11 @@ function Home() {
             { t: "Read app.json", d: "Auto-detect required env variables." },
             { t: "Live build logs", d: "Watch deployment stream in real time." },
             { t: "Manage later", d: "Login with your ID + password to update vars." },
-          ].map((f) => (
+          ].map((f, i) => (
             <div
               key={f.t}
-              className="group rounded-2xl border border-border bg-card p-5 hover:border-foreground/30 transition-colors"
+              className="group rounded-2xl border border-border bg-card p-5 hover:border-foreground/30 hover:-translate-y-0.5 transition-all duration-500 animate-fade-in"
+              style={{ animationDuration: "700ms", animationDelay: `${550 + i * 100}ms`, animationFillMode: "backwards" }}
             >
               <div className="text-sm text-muted-foreground">{f.d}</div>
               <div className="mt-2 font-medium flex items-center gap-2">
@@ -107,7 +108,7 @@ function Home() {
         <div className="mt-10 text-center">
           <Link
             to="/manage"
-            className="text-sm text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
+            className="text-sm text-muted-foreground hover:text-foreground underline-offset-4 hover:underline transition-colors duration-300"
           >
             Already deployed? Manage your app →
           </Link>
@@ -122,20 +123,20 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-30 backdrop-blur-xl bg-background/70 border-b border-border">
       <div className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight">
+        <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight transition-opacity duration-300 hover:opacity-80">
           <div className="h-6 w-6 rounded-md bg-foreground" />
-          AS CLOUD SYSTEM
+          AS Cloud System 🌙
         </Link>
         <nav className="flex items-center gap-1 text-sm">
           <Link
             to="/"
-            className="px-3 py-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground"
+            className="px-3 py-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-300"
           >
             Deploy
           </Link>
           <Link
             to="/manage"
-            className="px-3 py-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground"
+            className="px-3 py-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-all duration-300"
           >
             Manage
           </Link>
@@ -149,7 +150,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border mt-16">
       <div className="mx-auto max-w-6xl px-6 py-6 text-xs text-muted-foreground flex justify-between">
-        <span>© AS Cloud System</span>
+        <span>© AS Cloud System 🌙</span>
         <span className="mono">v1.0</span>
       </div>
     </footer>
